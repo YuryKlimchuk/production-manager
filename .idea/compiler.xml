@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="frontendweb" />
         <module name="archive" />
+        <module name="discoveryserver" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="archive" options="-parameters" />
+      <module name="frontendweb" options="-parameters" />
     </option>
   </component>
 </project>
