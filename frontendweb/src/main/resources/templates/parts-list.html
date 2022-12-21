@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+        <script>
+            $(function() {
+                $('.clickable-row').on('click', event => {
+                    let $row = $(event.currentTarget);
+                    let id = $row.data('href');
+                    let url =
+                        $(location).attr('protocol') + '//' +
+                        $(location).attr('host') +
+                        $(location).attr('pathname') + '/' + id;
+
+                    $(location).prop('href', url);
+                });
+
+                $formType = $('.form-type').first();
+                $('.check-type').change(event => {
+                    if($(event.currentTarget).is(':checked')) $formType.submit();
+                });
+
+            });
+        </script>
+        <style>
+            .clickable-row {
+                cursor: pointer;
+            }
+        </style>
+
+
+        <meta charset="UTF-8">
+<!--        FIXME: change title-->
+        <title>TITLE</title>
+    </head>
+    <body>
+        <div class="container w-50 border border-2 border-warning">
+            Choose type
+            <form class="form-type" th:method="'GET'">
+                <div class="form-check">
+                    <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                            th:value="'ASSEMBLY'"
+                                                                            th:checked="${type == 'ASSEMBLY'}">
+                    <label class="form-check-label" th:text="'Сборки'" />
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                            th:value="'PART'"
+                                                                            th:checked="${type == 'PART'}">
+                    <label class="form-check-label" th:text="'Детали'" />
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                            th:value="'STANDARD_PART'"
+                                                                            th:checked="${type == 'STANDARD_PART'}">
+                    <label class="form-check-label" th:text="'Стандартные изделия'" />
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                            th:value="'BUY_PART'"
+                                                                            th:checked="${type == 'BUY_PART'}">
+                    <label class="form-check-label" th:text="'Покупные изделия'" />
+                </div>
+            </form>
+        </div>
+        <div class="container w-50 border border-2 border-warning">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th th:text="'№'" />
+                        <th th:text="'Обозначение'" />
+                        <th th:text="'Наименование'" />
+                        <th th:text="'Статус'" />
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="item, index : ${items}">
+                        <tr class="clickable-row" th:attr="data-href=${item.id}">
+                            <td th:text="${index.count}" />
+                            <td th:text="${item.number}" />
+                            <td th:text="${item.name}" />
+                            <td>
+                                <span th:if="${item.status == 'DESIGN'}" th:text="'Проектирование'" class="text-danger"/>
+                                <span th:if="${item.status == 'PRODUCTION'}" th:text="'Серия'" class="text-success"/>
+                                <span th:if="${item.status == 'TEST'}" th:text="'Опытный'" class="text-primary "/>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

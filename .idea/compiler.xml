@@ -15,6 +15,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="archive" options="-parameters" />
+      <module name="discoveryserver" options="-parameters" />
       <module name="frontendweb" options="-parameters" />
     </option>
   </component>
