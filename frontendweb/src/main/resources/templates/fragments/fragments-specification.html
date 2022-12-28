@@ -20,16 +20,17 @@
                         <select class="form-select form-select-sm" aria-label=".form-select-sm example"></select>
                     </td>
                     <td>
-                        <input class="form-control form-control-sm" type="number" value="1" min="1" aria-label=".form-control-sm example">
+                        <input class="form-control form-control-sm" type="number" value="1" min="1"
+                               aria-label=".form-control-sm example" th:name="input-count" th:attr="data-type=${type}">
                     </td>
                     <td colspan="3">
-                        <button type="button" class="btn btn-success btn-sm w-100">
+                        <button type="button" class="btn btn-success btn-sm w-100" th:name="add-row-button" th:attr="data-type=${type}">
                             <i class="bi bi-clipboard-plus"></i>
-                            Сохранить
+                            Добавить
                         </button>
                     </td>
                 </tr>
-                <tr>
+                <tr th:attr="id='row-title-' + ${type}">
                     <td th:text="''" />
                     <td class="text-center text-decoration-underline fw-bold" th:text="${title}" />
                     <td th:text="''" />
@@ -42,7 +43,11 @@
                     <td class="text-center" th:text="${index.count}" />
                     <td th:text="${item.element.number}" />
                     <td th:text="${item.element.name}" />
-                    <td class="text-center" th:text="${item.rate}" />
+                    <td class="text-center">
+                        <span th:text="${item.rate}"></span>
+                        <input class="form-control form-control-sm" type="number" value="1" min="1"
+                               th:name="input-count" th:attr="data-type=${type}" style="display: none;">
+                    </td>>
                     <td th:text="${item.element.status}" />
                     <td class="text-center">
                         <button type="button" class="btn btn-success btn-sm">

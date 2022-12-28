@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <th:block th:fragment="default-body">
+    <h4>Default body</h4>
+  </th:block>
+  <th:block th:fragment="test1">
+    <h4>..::Все четко работает::..</h4>
+    <b>/list</b>
+  </th:block>
+  <th:block th:fragment="test2">
+    <h4>..::TEST2 - Все четко работает::..</h4>
+    <b>/list/{id}</b>
+  </th:block>
+  <th:block th:fragment="test3">
+    <h4>..::TEST_3 ___ -> Все четко работает::..</h4>
+    <b>/list-3-3-3</b>
+  </th:block>
+</body>
+</html>

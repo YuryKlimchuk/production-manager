@@ -8,6 +8,7 @@
 
         <script>
                 $(function() {
+                    // кнопки отображаюсщие список для добавления
                     let buttons = $('button[name="add-button"]');
                     buttons.each((index, target) => {
                         let $currentButton = $(target);
@@ -22,11 +23,75 @@
                                     $row.show();
                                     $select = $row.find('select');
                                     response.forEach(element => {
-                                        $select.append($('<option>').val(element.id).text(element.number));
+                                        switch (type) {
+                                            case 'ASSEMBLY':
+                                                console.log('ASSEMBLY');
+                                                $select.append($('<option>')
+                                                            .val(element.id)
+                                                            .text(element.number + ' ' + element.name)
+                                                            .attr('data-value', JSON.stringify(element))
+                                                );
+                                                break;
+                                            case 'PART':
+                                                console.log('PART');
+                                                $select.append($('<option>')
+                                                            .val(element.id)
+                                                            .text(element.number + ' ' + element.name)
+                                                            .attr('data-value', JSON.stringify(element))
+                                                );
+                                                break;
+                                            case 'STANDARD_PART':
+                                                console.log('STANDARD_PART');
+                                                break;
+                                            case 'BUY_PART':
+                                                console.log('BUY_PART');
+                                                break;
+                                            default:
+                                                console.log('default');
+                                        }
                                     });
                                 },
                                 dataType: 'json'
                             });
+                        });
+
+                    });
+
+                    // кнопка добавляющая строчку в таблицу
+                    let addRowButtons = $('button[name="add-row-button"]');
+                    addRowButtons.each((index, target) => {
+                        let $currentButton = $(target);
+                        let type = $currentButton.data('type');
+
+                        $currentButton.click(event => {
+                            let itemToAdd = $('#row-add-item-' + type).find('select').find(":selected").data('value');
+                            let count;
+                            $('input[name="input-count"]').each((index, target) => {
+                                if($(target).data('type') == type) count = $(target).val();
+                            });
+
+                            console.log('--------------------');
+
+                            let $titleRow = $('#row-title-' + type);
+
+                            let rowToAdd = '<tr class="table-info"><td>***</td><td>'
+                                            + itemToAdd.number + '</td><td>'
+                                            + itemToAdd.name + '</td><td>'
+                                            + count + '</td><td>***</td><td>***</td><td>***</td>';
+
+                            let $row = $('<tr>', {
+                                class: 'table-info'
+                            });
+
+                            $row.append(
+                                $('<td>', {
+                                    colspan: 7,
+                                }).html('Ura Ura Ura')
+                            );
+
+                            $titleRow.after($row);
+
+                            //$titleRow.after(rowToAdd);
 
                         });
 
@@ -34,27 +99,21 @@
                 });
             </script>
 
-        <style>
-            h1 {
-                color: blue;
-            }
-        </style>
+
 
         <meta charset="UTF-8">
         <!--        FIXME: change title-->
         <title>TITLE</title>
     </head>
     <body>
-        <h1>Спецификация</h1>
-
-        <div class="container w-75">
+        <div class="container w-100">
             <table class="table table-bordered table-hover rounded rounded-3 overflow-hidden">
                 <thead class="table-dark">
                     <tr>
                         <th class="text-center" th:text="'№'" />
                         <th class="text-center" th:text="'Обозначение'" />
                         <th class="text-center" th:text="'Наименование'" />
-                        <th class="text-center" th:text="'Кол.'" style="width: 5%"/>
+                        <th class="text-center" th:text="'Кол.'" style="width: 10%"/>
                         <th class="text-center" th:text="'Примечание'" />
                         <th class="text-center" th:text="'Изм.кол.'" />
                         <th class="text-center" th:text="'Удалить'" />

@@ -38,60 +38,65 @@
         <title>TITLE</title>
     </head>
     <body>
-        <div class="container w-50 border border-2 border-warning">
-            Choose type
-            <form class="form-type" th:method="'GET'">
-                <div class="form-check">
-                    <input class="form-check-input check-type" type="radio" th:name="'type'"
-                                                                            th:value="'ASSEMBLY'"
-                                                                            th:checked="${type == 'ASSEMBLY'}">
-                    <label class="form-check-label" th:text="'Сборки'" />
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input check-type" type="radio" th:name="'type'"
-                                                                            th:value="'PART'"
-                                                                            th:checked="${type == 'PART'}">
-                    <label class="form-check-label" th:text="'Детали'" />
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input check-type" type="radio" th:name="'type'"
-                                                                            th:value="'STANDARD_PART'"
-                                                                            th:checked="${type == 'STANDARD_PART'}">
-                    <label class="form-check-label" th:text="'Стандартные изделия'" />
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input check-type" type="radio" th:name="'type'"
-                                                                            th:value="'BUY_PART'"
-                                                                            th:checked="${type == 'BUY_PART'}">
-                    <label class="form-check-label" th:text="'Покупные изделия'" />
-                </div>
-            </form>
-        </div>
-        <div class="container w-50 border border-2 border-warning">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th th:text="'№'" />
-                        <th th:text="'Обозначение'" />
-                        <th th:text="'Наименование'" />
-                        <th th:text="'Статус'" />
-                    </tr>
-                </thead>
-                <tbody>
-                    <th:block th:each="item, index : ${items}">
-                        <tr class="clickable-row" th:attr="data-href=${item.id}">
-                            <td th:text="${index.count}" />
-                            <td th:text="${item.number}" />
-                            <td th:text="${item.name}" />
-                            <td>
-                                <span th:if="${item.status == 'DESIGN'}" th:text="'Проектирование'" class="text-danger"/>
-                                <span th:if="${item.status == 'PRODUCTION'}" th:text="'Серия'" class="text-success"/>
-                                <span th:if="${item.status == 'TEST'}" th:text="'Опытный'" class="text-primary "/>
-                            </td>
+        <!-- ARCHIVE-LIST($PART, $ITEMS) :: BEGIN -->
+        <div th:fragment="archive-list">
+            <div class="container w-50 border border-2 border-warning">
+                Choose type
+                <form class="form-type" th:method="'GET'">
+                    <h1 th:text="${bodyBlockModel.hello}" />
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                                th:value="'ASSEMBLY'"
+                                                                                th:checked="${type == 'ASSEMBLY'}">
+                        <label class="form-check-label" th:text="'Сборки'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                                th:value="'PART'"
+                                                                                th:checked="${type == 'PART'}">
+                        <label class="form-check-label" th:text="'Детали'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                                th:value="'STANDARD_PART'"
+                                                                                th:checked="${type == 'STANDARD_PART'}">
+                        <label class="form-check-label" th:text="'Стандартные изделия'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:name="'type'"
+                                                                                th:value="'BUY_PART'"
+                                                                                th:checked="${type == 'BUY_PART'}">
+                        <label class="form-check-label" th:text="'Покупные изделия'" />
+                    </div>
+                </form>
+            </div>
+            <div class="container w-50 border border-2 border-warning">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th th:text="'№'" />
+                            <th th:text="'Обозначение'" />
+                            <th th:text="'Наименование'" />
+                            <th th:text="'Статус'" />
                         </tr>
-                    </th:block>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="item, index : ${items}">
+                            <tr class="clickable-row" th:attr="data-href=${item.id}">
+                                <td th:text="${index.count}" />
+                                <td th:text="${item.number}" />
+                                <td th:text="${item.name}" />
+                                <td>
+                                    <span th:if="${item.status == 'DESIGN'}" th:text="'Проектирование'" class="text-danger"/>
+                                    <span th:if="${item.status == 'PRODUCTION'}" th:text="'Серия'" class="text-success"/>
+                                    <span th:if="${item.status == 'TEST'}" th:text="'Опытный'" class="text-primary "/>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!-- ARCHIVE-LIST :: END -->
     </body>
 </html>
