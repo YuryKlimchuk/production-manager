@@ -7,10 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-    <th:block th:if="${#ctx.containsVariable('beginScripts')}">
-        <th:block th:each="script: ${beginScripts}">
-            <script type="text/javascript" th:src="@{${script.source} + ${script.name}}"></script>
-        </th:block>
+
+    <th:block th:if="${#ctx.containsVariable('beginScripts')}" th:each="script: ${beginScripts}">
+        <script type="text/javascript" th:src="@{${script.source} + ${script.name}}"></script>
     </th:block>
 
     <meta charset="UTF-8">
@@ -24,10 +23,8 @@
     </th:block>
     <!-- body-block :: END -->
 
-    <th:block th:if="${#ctx.containsVariable('endScripts')}">
-        <th:block th:each="script: ${endScripts}">
-            <script type="text/javascript" th:src="@{${script.source} + ${script.name}}"></script>
-        </th:block>
+    <th:block th:if="${#ctx.containsVariable('endScripts')}" th:each="script: ${endScripts}">
+        <script type="text/javascript" th:src="@{${script.source} + ${script.name}}"></script>
     </th:block>
 </body>
 </html>

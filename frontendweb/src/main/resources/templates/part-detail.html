@@ -35,8 +35,9 @@
         <title>TITLE</title>
     </head>
     <body>
-        <h1>Hello world</h1>
-        <div class="container w-50 border border-2 border-warning">
+
+        <!-- ARCHIVE-DETAIL-ITEM($ITEM) :: BEGIN -->
+        <div class="container w-50 border border-2 border-warning" th:fragment="archive-detail-item">
             <div class="row border-bottom border-info p-1 mt-5">
                 <div class="col-4 d-flex align-items-center">
                     <span class="text-end fw-bold w-100" th:text="'ID'" />
@@ -170,5 +171,7 @@
                 </div>
             </div>
         </div>
+        <!-- ARCHIVE-DETAIL-ITEM :: END -->
+
     </body>
 </html>

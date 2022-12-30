@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +36,10 @@ public class ArchiveController extends AbstractController {
 
         //URLs.putIfAbsent(URL_DISPLAY_ITEM, URL_DISPLAY_ITEM);
         setFragmentToURL(URL_DISPLAY_LIST, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("parts-list.html").setName("archive-list"));
+        setFragmentToURL(URL_DISPLAY_ITEM, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("part-detail.html").setName("archive-detail-item"));
 
 
+        init1();
 
     }
 
@@ -51,7 +54,17 @@ public class ArchiveController extends AbstractController {
     }
 
     @RequestMapping(value = URL_DISPLAY_ITEM, method = RequestMethod.GET)
-    public String displayItem(@RequestParam(name = "type", required = true, defaultValue = "PART") String type, Model model) {
+    public String displayItem(@PathVariable(name = "id") String id, Model model) {
+        ResponseEntity<?> response = partService.getItemById(id);
+
+        if(response.getStatusCode().equals(HttpStatus.OK)) {
+            model.addAttribute("item", response.getBody());
+        }
+
+        if(response.getStatusCode().equals(HttpStatus.NO_CONTENT)) {
+            return "redirect:/archive/list";
+        }
+
         return DEFAULT_VIEW;
     }
 

@@ -35,11 +35,17 @@
             <div class="container w-50 border border-2 border-warning">
                 <table class="table table-bordered table-hover">
                     <thead>
-                        <tr>
+                        <tr th:if="${type == 'PART' || type == 'ASSEMBLY'}">
                             <th th:text="'№'" />
                             <th th:text="'Обозначение'" />
                             <th th:text="'Наименование'" />
-                            <th th:text="'Статус'" /> <!--Вариация в зависимости от типа-->
+                            <th th:text="'Статус'" />
+                        </tr>
+                        <tr th:if="${type == 'STANDARD_PART' || type == 'BUY_PART'}">
+                            <th th:text="'№'" />
+                            <th th:text="'Обозначение'" />
+                            <th th:text="'Наименование'" />
+                            <th th:text="'Примечание'" />
                         </tr>
                     </thead>
                     <tbody>

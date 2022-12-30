@@ -25,8 +25,8 @@ public abstract class AbstractController {
     protected List<RenderedFragment> beginScripts = new ArrayList<>();
     protected List<RenderedFragment> endScripts = new ArrayList<>();
 
-     @PostConstruct
-     private void init1() {
+
+     final protected void init1() {
         BASE_URL = this.getClass().getAnnotation(RequestMapping.class).value()[0];
 
         renderedFragmentProviderManager.getJsForController(CONTROLLER_ID)
