@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -29,9 +30,34 @@ public class ControllerPart implements IControllerPart<DTOPart> {
     }
 
     @Override
+    public ResponseEntity<?> getAll() {
+        return null;
+    }
+
+    @Override
     public ResponseEntity<?> getItemsByType(String type) {
         Collection<DTOPart> items = service.getAllByType(type);
         if(items.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<?> getItemsByTypeAndFilter(String type, Map<String, Object> filter) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> update(String rawId, DTOPart modifiedItem) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> delete(String rawId) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<?> create(DTOPart item) {
+        return null;
     }
 }
