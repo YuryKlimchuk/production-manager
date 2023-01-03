@@ -1,6 +1,5 @@
 package com.hydroyura.productionmanager.archive.services.rates;
 
-import com.hydroyura.productionmanager.archive.dto.DTORate;
 import com.hydroyura.productionmanager.archive.entities.DBRate;
 import com.hydroyura.productionmanager.archive.entities.QDBRate;
 import com.hydroyura.productionmanager.archive.repositories.BaseRepository;

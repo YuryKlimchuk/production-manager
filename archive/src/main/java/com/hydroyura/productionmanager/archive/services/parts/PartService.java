@@ -1,9 +1,9 @@
 package com.hydroyura.productionmanager.archive.services.parts;
 
-import com.hydroyura.productionmanager.archive.dto.DTOPart;
 import com.hydroyura.productionmanager.archive.entities.DBPart;
 import com.hydroyura.productionmanager.archive.entities.QDBPart;
 import com.hydroyura.productionmanager.archive.repositories.BaseRepository;
+import com.hydroyura.productionmanager.sharedapi.dto.DTOPart;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.modelmapper.ModelMapper;
@@ -21,6 +21,7 @@ import java.util.stream.StreamSupport;
 public class PartService implements IPartService<DBPart, DTOPart> {
 
     private Class<DTOPart> dtoType = DTOPart.class;
+
 
     @Autowired @Qualifier(value = "PartRepository")
     private BaseRepository<DBPart, Long> repository;

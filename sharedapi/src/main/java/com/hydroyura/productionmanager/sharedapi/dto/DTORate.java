@@ -1,4 +1,4 @@
-package com.hydroyura.productionmanager.archive.dto;
+package com.hydroyura.productionmanager.sharedapi.dto;
 
 public class DTORate {
 

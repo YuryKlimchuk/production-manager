@@ -1,6 +1,4 @@
-package com.hydroyura.productionmanager.archive.dto;
-
-import javax.persistence.Column;
+package com.hydroyura.productionmanager.sharedapi.dto;
 
 public class DTOPart {
 
