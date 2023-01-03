@@ -1,6 +1,5 @@
 package com.hydroyura.productionmanager.archive.controllers.parts;
 
-import com.hydroyura.productionmanager.archive.dto.DTOPart;
 import com.hydroyura.productionmanager.archive.services.parts.IPartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

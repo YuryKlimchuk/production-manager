@@ -1,8 +1,9 @@
 package com.hydroyura.productionmanager.archive.controllers.rates;
 
-import com.hydroyura.productionmanager.archive.dto.DTORate;
+
 import com.hydroyura.productionmanager.archive.entities.DBPartType;
 import com.hydroyura.productionmanager.archive.services.rates.IRateService;
+import com.hydroyura.productionmanager.sharedapi.dto.DTORate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
