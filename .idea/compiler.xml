@@ -9,14 +9,20 @@
         <module name="frontendweb" />
         <module name="archive" />
         <module name="discoveryserver" />
+        <module name="sharedapi" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="shared-api" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="archive" options="-parameters" />
       <module name="discoveryserver" options="-parameters" />
       <module name="frontendweb" options="-parameters" />
+      <module name="shared-api" options="" />
+      <module name="sharedapi" options="-parameters" />
     </option>
   </component>
 </project>

@@ -30,20 +30,10 @@ public class ControllerPart implements IControllerPart<DTOPart> {
     }
 
     @Override
-    public ResponseEntity<?> getAll() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<?> getItemsByType(String type) {
-        Collection<DTOPart> items = service.getAllByType(type);
+    public ResponseEntity<?> getAll(Map<String, Object> filter) {
+        Collection<DTOPart> items = service.getAll(filter);
         if(items.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(items, HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<?> getItemsByTypeAndFilter(String type, Map<String, Object> filter) {
-        return null;
     }
 
     @Override
@@ -53,7 +43,8 @@ public class ControllerPart implements IControllerPart<DTOPart> {
 
     @Override
     public ResponseEntity<?> delete(String rawId) {
-        return null;
+        service.delete(Long.valueOf(rawId));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override

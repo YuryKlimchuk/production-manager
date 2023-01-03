@@ -25,7 +25,7 @@ public class PartController implements IPartController {
 
     @Override
     public String displayList(String type, Model model) {
-        ResponseEntity<?> response = partService.getItemsByType(type);
+        ResponseEntity<?> response = partService.getAll(null);
 
         model.addAttribute("type", type);
 
@@ -73,6 +73,6 @@ public class PartController implements IPartController {
     @Override
     public Collection<Map<String, Object>> getItems(String type) {
         //FIXME: add checking
-        return (Collection<Map<String, Object>>) partService.getItemsByType(type).getBody();
+        return (Collection<Map<String, Object>>) partService.getAll(null).getBody();
     }
 }

@@ -7,6 +7,9 @@
         <option value="$PROJECT_DIR$/archive/pom.xml" />
         <option value="$PROJECT_DIR$/frontendweb/pom.xml" />
         <option value="$PROJECT_DIR$/discoveryserver/pom.xml" />
+        <option value="$PROJECT_DIR$/sharedapi/untitled/pom.xml" />
+        <option value="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/shared-api/pom.xml" />
+        <option value="$PROJECT_DIR$/sharedapi/pom.xml" />
       </list>
     </option>
   </component>

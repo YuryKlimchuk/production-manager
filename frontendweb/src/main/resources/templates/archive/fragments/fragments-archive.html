@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head></head>
+    <body>
+        <!-- ARCHIVE-LIST($PART, $ITEMS) :: BEGIN -->
+        <div th:fragment="archive-list">
+            <!-- FILTER :: BEGIN -->
+            <div class="container w-50 border border-2 border-warning">
+                <form class="form-filter-archive" th:method="'GET'" th:object="${filter}">
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:field="${filter.type}"
+                                                                                th:value="'ASSEMBLY'"
+                                                                                th:checked="${filter.type == 'ASSEMBLY'}">
+                        <label class="form-check-label" th:text="'Сборки'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:field="${filter.type}"
+                                                                                th:value="'PART'"
+                                                                                th:checked="${filter.type == 'PART'}">
+                        <label class="form-check-label" th:text="'Детали'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:field="${filter.type}"
+                                                                                th:value="'STANDARD_PART'"
+                                                                                th:checked="${filter.type == 'STANDARD_PART'}">
+                        <label class="form-check-label" th:text="'Стандартные изделия'" />
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input check-type" type="radio" th:field="${filter.type}"
+                                                                                th:value="'BUY_PART'"
+                                                                                th:checked="${filter.type == 'BUY_PART'}">
+                        <label class="form-check-label" th:text="'Покупные изделия'" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Обозначение</label>
+                        <input class="form-control form-control-sm w-50 text-input-filter" type="text" th:field="${filter.number}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Наименование</label>
+                        <input class="form-control form-control-sm w-50 text-input-filter" type="text" th:field="${filter.name}">
+                    </div>
+                    <!--
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Статус</label>
+                        <input class="form-control form-control-sm w-50" type="text" th:name="name">
+                    </div>
+                    -->
+                </form>
+            </div>
+            <!-- FILTER :: END -->
+            <div class="container w-50 border border-2 border-warning" style="height: 50px;">
+                <th:block th:if="${#ctx.containsVariable('msg')}" >
+                    <label class="text-success" th:text="${msg}" />
+                </th:block>
+            </div>
+            <div class="container w-50 border border-2 border-warning">
+                <button type="button" class="btn btn-danger btn-sm" th:name="'btnCreateNew'">Создать новый элемент</button>
+            </div>
+            <!-- TABLE :: BEGIN -->
+            <div class="container w-50 border border-2 border-warning">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr th:if="${filter.type == 'PART' || filter.type == 'ASSEMBLY'}">
+                            <th th:text="'№'" />
+                            <th th:text="'Обозначение'" />
+                            <th th:text="'Наименование'" />
+                            <th th:text="'Статус'" />
+                        </tr>
+                        <tr th:if="${filter.type == 'STANDARD_PART' || filter.type == 'BUY_PART'}">
+                            <th th:text="'№'" />
+                            <th th:text="'Обозначение'" />
+                            <th th:text="'Наименование'" />
+                            <th th:text="'Примечание'" />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th:block th:each="item, index : ${items}">
+                            <tr class="clickable-row" th:attr="data-href=${item.id}"> <!--Вариация в зависимости от типа-->
+                                <td th:text="${index.count}" />
+                                <td th:text="${item.number}" />
+                                <td th:text="${item.name}" />
+                                <td>
+                                    <span th:if="${item.status == 'DESIGN'}" th:text="'Проектирование'" class="text-danger"/>
+                                    <span th:if="${item.status == 'PRODUCTION'}" th:text="'Серия'" class="text-success"/>
+                                    <span th:if="${item.status == 'TEST'}" th:text="'Опытный'" class="text-primary "/>
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <!-- TABLE :: END -->
+        </div>
+        <!-- ARCHIVE-LIST :: END -->
+        <!-- ARCHIVE-DETAIL-ITEM($ITEM) :: BEGIN -->
+        <div class="container w-50 border border-2 border-warning" th:fragment="archive-detail-item">
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'ID'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100" th:text="${item.id}"/>
+                </div>
+                <div id="edit-dialog">
+                    EDIT dialoge
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Обозначение'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100" th:text="${item.number}"/>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm" th:name="'btnEditNumber'">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Наименование'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100" th:text="${item.name}"/>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm" th:name="'btnEditName'">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Статус'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100 text-danger" th:if="${item.status == 'DESIGN'}" th:text="'Проектирование'" />
+                    <span class="text-begin w-100 text-success" th:if="${item.status == 'PRODUCTION'}" th:text="'Серия'" />
+                    <span class="text-begin w-100 text-primary" th:if="${item.status == 'TEST'}" th:text="'Опытный'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Дата создания'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100" th:text="${item.created}"/>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Дата обновления'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100" th:text="${item.lastUpdate}"/>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Файл PDF'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-file-pdf"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-end fw-bold w-100" th:text="'Файл другой'" />
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-file-pdf"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="col-4 d-flex align-items-center">
+                    <span class="text-begin w-100">
+                        <button type="button" class="btn btn-danger btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="row border-bottom border-info p-1 mt-5">
+                <div class="col-12 d-flex align-items-center border border-2">
+                    <form th:method="'GET'" th:if="${item.type == 'ASSEMBLY'}" th:action="@{~__${#httpServletRequest.requestURI}__/specification}">
+                        <div class="row">
+                            <button class="btn btn-success" type="submit" id="btnSpecDisplay">Спецификация</button>
+                        </div>
+                    </form>
+                    <form th:method="'POST'">
+                        <div class="row">
+                            <button class="btn btn-success" type="submit" th:name="btnDelete">Удалить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- ARCHIVE-DETAIL-ITEM :: END -->
+        <!-- CREATE-NEW :: BEGIN -->
+        <div class="container w-50 border border-2 border-warning" th:fragment="archive-create-new">
+            <br><br><br>
+            <h4 th:if="${#ctx.containsVariable('beginScripts')}" th:text="${msg}" class="text-danger" />
+            <form th:method="'POST'" id="create-new-part-form">
+                <div class="mb-3">
+                    <label class="fw-bold" th:text="'Выберите тип'" />
+                    <select class="form-select form-select-sm select-type" th:name="'type'">
+                        <option th:value="'PART'" th:text="'Деталь'"/>
+                        <option th:value="'ASSEMBLY'" th:text="'Сборка'"/>
+                        <option th:value="'BUY_PART'" th:text="'Покупная деталь'"/>
+                        <option th:value="'STANDARD_PART'" th:text="'Стандартное изделие'"/>
+                    </select>
+                    <hr>
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold" th:text="'Обозначение'" />
+                    <input class="form-control form-control-sm" type="text" th:name="'number'" />
+                    <label class="fs-6 text-danger fw-light" th:text="'error msg'" />
+                    <hr>
+                </div>
+                <div class="mb-3">
+                    <label class="fw-bold" th:text="'Наименование'" />
+                    <input class="form-control form-control-sm" type="text" th:name="'name'" />
+                    <label class="fs-6 text-danger fw-light" th:text="'error msg'" />
+                    <hr>
+                </div>
+                <div name="set-status" id="set-status-PART" class="mb-3">
+                    <label class="fw-bold" th:text="'Выберите статус'" />
+                    <select class="form-select form-select-sm select-type" th:name="'status'">
+                        <option th:value="'DESIGN'" th:text="'Проектирование'"/>
+                        <option th:value="'PRODUCTION'" th:text="'Производство'"/>
+                        <option th:value="'TEST'" th:text="'Эксперимент'"/>
+                    </select>
+                </div>
+                <div name="set-status" id="set-status-ASSEMBLY" class="mb-3">
+                    <label class="fw-bold" th:text="'Выберите статус'" />
+                    <select class="form-select form-select-sm select-type" th:name="'status'">
+                        <option th:value="'DESIGN'" th:text="'Проектирование'"/>
+                        <option th:value="'PRODUCTION'" th:text="'Производство'"/>
+                        <option th:value="'TEST'" th:text="'Эксперимент'"/>
+                    </select>
+                </div>
+                <div name="set-status" id="set-status-BUY_PART" class="mb-3">
+                    <input type="hidden" th:name="'status'" th:value="'NONE'">
+                </div>
+                <div name="set-status" id="set-status-STANDARD_PART" class="mb-3">
+                    <input type="hidden" th:name="'status'" th:value="'NONE'">
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success w-100" type="submit" th:name="btnSave">Сохранить</button>
+                </div>
+            </form>
+        </div>
+        <!-- CREATE-NEW :: END -->
+    </body>
+</html>

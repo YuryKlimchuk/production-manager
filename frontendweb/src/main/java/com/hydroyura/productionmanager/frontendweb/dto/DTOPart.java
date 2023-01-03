@@ -1,47 +1,34 @@
-package com.hydroyura.productionmanager.archive.entities;
+package com.hydroyura.productionmanager.frontendweb.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class DTOPart {
 
-import javax.persistence.*;
-import java.util.Collection;
+    private long id;
 
-@Entity
-@Table(name = "parts")
-public class DBPart extends DBBaseEntity {
-
-    @Column
     private String number;
 
-    @Column
     private String name;
 
-    @Column
     private String type;
 
-    @Column
     private String status;
 
     private String created;
 
-    @Column(name = "last_update")
     private String lastUpdate;
 
-    @Column
     private String pdf;
 
-    @Column(name = "other_file")
     private String otherFile;
 
+    public DTOPart() {}
 
-    @OneToMany(mappedBy = "assembly", cascade = CascadeType.REMOVE) @JsonIgnore
-    private Collection<DBRate> assemblies;
+    public long getId() {
+        return id;
+    }
 
-    @OneToMany(mappedBy = "element", cascade = CascadeType.REMOVE) @JsonIgnore
-    private Collection<DBRate> elements;
-
-
-    public DBPart() {}
-
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getNumber() {
         return number;
@@ -106,21 +93,4 @@ public class DBPart extends DBBaseEntity {
     public void setOtherFile(String otherFile) {
         this.otherFile = otherFile;
     }
-
-    public Collection<DBRate> getAssemblies() {
-        return assemblies;
-    }
-
-    public void setAssemblies(Collection<DBRate> assemblies) {
-        this.assemblies = assemblies;
-    }
-
-    public Collection<DBRate> getElements() {
-        return elements;
-    }
-
-    public void setElements(Collection<DBRate> elements) {
-        this.elements = elements;
-    }
-
 }

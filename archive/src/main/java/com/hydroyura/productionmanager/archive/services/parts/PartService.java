@@ -4,12 +4,15 @@ import com.hydroyura.productionmanager.archive.dto.DTOPart;
 import com.hydroyura.productionmanager.archive.entities.DBPart;
 import com.hydroyura.productionmanager.archive.entities.QDBPart;
 import com.hydroyura.productionmanager.archive.repositories.BaseRepository;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -37,47 +40,45 @@ public class PartService implements IPartService<DBPart, DTOPart> {
     }
 
     @Override
-    public Collection<DTOPart> getAllByType(String type) {
+    public Collection<DTOPart> getAll(Map<String, Object> filter) {
+
+        String type = (String) filter.getOrDefault("type", "PART");
+        String number = (String) filter.getOrDefault("number", "");
+        String name = (String) filter.getOrDefault("name", "");
+        String status = (String) filter.getOrDefault("status", "");
+
+
+
+        /*
+        if(((type == "PART") || (type == "ASSEMBLY")) && status != "") {
+            predicate = QDBPart.dBPart.type.eq(type)
+                    .and(QDBPart.dBPart.name.like(name))
+                    .and(QDBPart.dBPart.number.like(number))
+                    .and(QDBPart.dBPart.status.eq(status));
+        } else {
+            predicate = QDBPart.dBPart.type.eq(type)
+                    .and(QDBPart.dBPart.name.like(name))
+                    .and(QDBPart.dBPart.number.like(number));
+        }
+         */
+
+        BooleanExpression typeExp = QDBPart.dBPart.type.eq(type);
+        BooleanExpression nameExp = QDBPart.dBPart.name.contains(name);
+        BooleanExpression numberExp = QDBPart.dBPart.number.contains(number);
+
+        Predicate predicate = typeExp.and(nameExp.and(numberExp));
+
         return
-                StreamSupport.stream(repository.findAll(QDBPart.dBPart.type.eq(type)).spliterator(), false)
+                StreamSupport.stream(repository.findAll(predicate).spliterator(), false)
                         .map(entity -> modelMapper.map(entity, dtoType))
                         .collect(Collectors.toList());
     }
 
-
-
-    /*
     @Override
-    public Optional<DTO> update(Entity entity) {
-        if(!repository.existsById(entity.getId())) return Optional.empty();
-
-        objectMapper.convertValue(entity, new TypeReference<DTO>() {});
-
-        return Optional.of(repository.save(entity));
+    public Optional<DTOPart> delete(Long id) {
+        // FIXME: checking
+        repository.deleteById(id);
+        return Optional.empty();
     }
 
-    @Override
-    public Optional<DTO> delete(Long id) {
-        if(!repository.existsById(id)) return Optional.empty();
-        Entity entityForDelete = repository.findById(id).get();
-        repository.delete(entityForDelete);
-        return Optional.of(entityForDelete);
-    }
-
-    @Override
-    public Optional<DTO> save(Entity entity) {
-        return Optional.of(repository.save(entity));
-    }
-
-    @Override
-    public Collection<DTO> getAllByFilter(String type, Map<String, Object> filter) {
-        return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public Collection<DTO> getAllByType(String type) {
-        return Collections.EMPTY_LIST;
-    }
-
-     */
 }
