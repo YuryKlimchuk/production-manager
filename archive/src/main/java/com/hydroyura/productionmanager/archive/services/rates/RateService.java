@@ -3,6 +3,7 @@ package com.hydroyura.productionmanager.archive.services.rates;
 import com.hydroyura.productionmanager.archive.entities.DBRate;
 import com.hydroyura.productionmanager.archive.entities.QDBRate;
 import com.hydroyura.productionmanager.archive.repositories.BaseRepository;
+import com.hydroyura.productionmanager.sharedapi.dto.DTORate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

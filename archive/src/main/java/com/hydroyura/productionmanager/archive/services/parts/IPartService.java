@@ -13,6 +13,9 @@ public interface IPartService<Entity extends DBBaseEntity, DTO> {
 
     public Optional<DTO> delete(Long id);
 
+    public Optional<DTO> save(DTO entity);
+    public Optional<DTO> update(DTO entity);
+
     /*
     public Optional<DTO> update(Entity entity);
     public Optional<DTO> delete(Long id);

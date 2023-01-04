@@ -21,7 +21,7 @@ import java.util.stream.StreamSupport;
 public class PartService implements IPartService<DBPart, DTOPart> {
 
     private Class<DTOPart> dtoType = DTOPart.class;
-
+    private Class<DBPart> entityType = DBPart.class;
 
     @Autowired @Qualifier(value = "PartRepository")
     private BaseRepository<DBPart, Long> repository;
@@ -48,21 +48,6 @@ public class PartService implements IPartService<DBPart, DTOPart> {
         String name = (String) filter.getOrDefault("name", "");
         String status = (String) filter.getOrDefault("status", "");
 
-
-
-        /*
-        if(((type == "PART") || (type == "ASSEMBLY")) && status != "") {
-            predicate = QDBPart.dBPart.type.eq(type)
-                    .and(QDBPart.dBPart.name.like(name))
-                    .and(QDBPart.dBPart.number.like(number))
-                    .and(QDBPart.dBPart.status.eq(status));
-        } else {
-            predicate = QDBPart.dBPart.type.eq(type)
-                    .and(QDBPart.dBPart.name.like(name))
-                    .and(QDBPart.dBPart.number.like(number));
-        }
-         */
-
         BooleanExpression typeExp = QDBPart.dBPart.type.eq(type);
         BooleanExpression nameExp = QDBPart.dBPart.name.contains(name);
         BooleanExpression numberExp = QDBPart.dBPart.number.contains(number);
@@ -79,6 +64,18 @@ public class PartService implements IPartService<DBPart, DTOPart> {
     public Optional<DTOPart> delete(Long id) {
         // FIXME: checking
         repository.deleteById(id);
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<DTOPart> save(DTOPart dto) {
+        DBPart entity = modelMapper.map(dto, entityType);
+        DTOPart savedDTO = modelMapper.map(repository.save(entity), dtoType);
+        return Optional.of(savedDTO);
+    }
+
+    @Override
+    public Optional<DTOPart> update(DTOPart dto) {
         return Optional.empty();
     }
 
