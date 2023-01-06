@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.DataBinder;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +25,14 @@ public class PartRestController implements IArchivePartRestController<DTOPart> {
     public final String ERROR_MSG_INVALID_ID = "Invalid ID";
     public final String ERROR_MSG_ID_NOT_EXIST = "Item with current ID not exist";
     public final String ERROR_MSG_INVALID_FILTER = "Invalid filter value";
+    public final String ERROR_MSG_SERVER_ERROR = "SERVER ERROR";
+    public final String ERROR_MSG_VALIDATION_FAILED = "Validation failed";
 
     @Autowired @Qualifier(value = "PartService")
     private IPartService<?, DTOPart> service;
+
+    @Autowired @Qualifier(value = "DTOPartValidator")
+    private Validator validator;
 
     @Override
     public ResponseEntity<?> getItemById(String rawId) {
@@ -37,11 +44,20 @@ public class PartRestController implements IArchivePartRestController<DTOPart> {
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
 
-        Optional<DTOPart> entity = service.getItemById(id);
+        Optional<DTOPart> entity = null;
+
+        try {
+            entity = service.getItemById(id);
+        } catch (Exception e) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_SERVER_ERROR);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         if(entity.isEmpty()) {
             DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_ID_NOT_EXIST);
             //FIXME: add logger msg
-            return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(apiError, HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(entity.get(), HttpStatus.OK);
@@ -56,26 +72,69 @@ public class PartRestController implements IArchivePartRestController<DTOPart> {
             return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
         }
 
-        Collection<DTOPart> items = service.getAll(filter);
+        Collection<DTOPart> items = null;
+
+        try {
+            items = service.getAll(filter);
+        } catch (Exception e) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_SERVER_ERROR);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         return new ResponseEntity<>(items, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> update(String rawId, DTOPart modifiedItem) {
-        return null;
+        //FIXME: validate
+        return new ResponseEntity<>(service.save(modifiedItem), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<?> delete(String rawId) {
-        //FIXME: add checking url
-        service.delete(Long.valueOf(rawId));
-        return new ResponseEntity<>(HttpStatus.OK);
+        long id = validateId(rawId);
+
+        if(id == -1) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_INVALID_ID);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            service.delete(Long.valueOf(rawId));
+        } catch (Exception e) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_SERVER_ERROR);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
     public ResponseEntity<?> create(DTOPart item) {
-        //FIXME: validate
-        return new ResponseEntity<>(service.save(item), HttpStatus.OK);
+
+        DataBinder dataBinder = new DataBinder(item);
+        dataBinder.setValidator(validator);
+        dataBinder.validate();
+
+        if(dataBinder.getBindingResult().hasErrors()) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_VALIDATION_FAILED);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<DTOPart> savedDTO = null;
+
+        try {
+            savedDTO = service.save(item);
+            return new ResponseEntity<>(savedDTO.get(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_SERVER_ERROR);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private long validateId(String rawId) {

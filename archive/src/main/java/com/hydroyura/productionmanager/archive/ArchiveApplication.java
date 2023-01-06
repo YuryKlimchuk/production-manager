@@ -1,9 +1,11 @@
 package com.hydroyura.productionmanager.archive;
 
+import com.hydroyura.productionmanager.sharedapi.validators.DTOPartValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.validation.Validator;
 
 @SpringBootApplication
 public class ArchiveApplication {
@@ -15,5 +17,11 @@ public class ArchiveApplication {
 	@Bean
 	public ModelMapper getModelMapper() {
 		return new ModelMapper();
+	}
+
+
+	@Bean(name = "DTOPartValidator")
+	public Validator getDTOPartValidator() {
+		return new DTOPartValidator();
 	}
 }

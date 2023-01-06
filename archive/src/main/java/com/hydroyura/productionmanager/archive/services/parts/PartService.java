@@ -76,7 +76,9 @@ public class PartService implements IPartService<DBPart, DTOPart> {
 
     @Override
     public Optional<DTOPart> update(DTOPart dto) {
-        return Optional.empty();
+        DBPart entity = modelMapper.map(dto, entityType);
+        DTOPart savedDTO = modelMapper.map(repository.save(entity), dtoType);
+        return Optional.of(savedDTO);
     }
 
 }
