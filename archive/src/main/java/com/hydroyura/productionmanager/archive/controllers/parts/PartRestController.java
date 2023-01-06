@@ -87,8 +87,43 @@ public class PartRestController implements IArchivePartRestController<DTOPart> {
 
     @Override
     public ResponseEntity<?> update(String rawId, DTOPart modifiedItem) {
-        //FIXME: validate
-        return new ResponseEntity<>(service.save(modifiedItem), HttpStatus.OK);
+        long id = validateId(rawId);
+
+        if(id == -1) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_INVALID_ID);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        DataBinder dataBinder = new DataBinder(modifiedItem);
+        dataBinder.setValidator(validator);
+        dataBinder.validate();
+
+        if(dataBinder.getBindingResult().hasErrors()) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_VALIDATION_FAILED);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<DTOPart> currentItem = service.getItemById(id);
+
+        if(currentItem.isEmpty()) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_INVALID_ID);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<DTOPart> updatedItem = null;
+
+        try {
+            updatedItem = service.save(modifiedItem);
+        } catch (Exception e) {
+            DTOApiError apiError = new DTOApiError().setMsg(ERROR_MSG_SERVER_ERROR);
+            //FIXME: add logger msg
+            return new ResponseEntity<>(apiError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(updatedItem.get(), HttpStatus.OK);
     }
 
     @Override
