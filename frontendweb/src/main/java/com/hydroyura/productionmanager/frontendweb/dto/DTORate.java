@@ -1,5 +1,7 @@
 package com.hydroyura.productionmanager.frontendweb.dto;
 
+import com.hydroyura.productionmanager.sharedapi.dto.DTOPart;
+
 public class DTORate {
 
     private DTOPart assembly;

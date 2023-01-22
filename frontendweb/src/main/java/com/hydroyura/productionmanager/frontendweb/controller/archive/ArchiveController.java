@@ -2,19 +2,24 @@ package com.hydroyura.productionmanager.frontendweb.controller.archive;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hydroyura.productionmanager.frontendweb.controller.AbstractController;
-import com.hydroyura.productionmanager.frontendweb.dto.DTOPart;
 import com.hydroyura.productionmanager.frontendweb.rendered.RenderedFragment;
 import com.hydroyura.productionmanager.frontendweb.rendered.RenderedFragmentType;
 import com.hydroyura.productionmanager.frontendweb.service.IPartService;
+import com.hydroyura.productionmanager.sharedapi.dto.DTOPart;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.DataBinder;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/archive/v1")
@@ -29,6 +34,9 @@ public class ArchiveController extends AbstractController {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired @Qualifier(value = "DTOPartValidator")
+    private Validator validator;
 
 
     private Collection<String> dtoKeys = Arrays.asList("number", "name", "status", "type");
@@ -93,40 +101,28 @@ public class ArchiveController extends AbstractController {
 
     @RequestMapping(value = URL_CREATE_NEW, method = RequestMethod.GET)
     public String createNew(Model model) {
-        if(!model.containsAttribute("item")) model.addAttribute("item", new HashMap<>());
+        if(!model.containsAttribute("item")) model.addAttribute("item", new DTOPart());
         return DEFAULT_VIEW;
     }
 
     @RequestMapping(value = URL_CREATE_NEW, method = RequestMethod.POST)
-    public String createNewSaving(RedirectAttributes redirectAttributes, @RequestParam Map<String, Object> params) {
-        var item = extractItemValue(params);
-        boolean isValid = validateItem(item);
-        if(isValid) {
+    public String createNewSaving(RedirectAttributes redirectAttributes, @ModelAttribute(name = "item") DTOPart item ) {
+
+        DataBinder dataBinder = new DataBinder(item);
+        dataBinder.setValidator(validator);
+        dataBinder.validate();
+
+        if(!dataBinder.getBindingResult().hasErrors()) {
+            partService.create(item);
             redirectAttributes.addFlashAttribute("msg", "Элемент успешно добавлен");
             return "redirect:/archive/v1/list";
         }
+
         redirectAttributes.addFlashAttribute("msg", "Поля заполнены не верно");
         redirectAttributes.addFlashAttribute("item", item);
+
         return "redirect:/archive/v1/list/create-new";
 
-    }
-
-    private Map<String, Object> extractItemValue(Map<String, Object> params) {
-        Map<String, Object> item = new HashMap<>();
-        params.entrySet().forEach(entry -> {
-            if(dtoKeys.contains(entry.getKey())) item.put(entry.getKey(), entry.getValue());
-        });
-        return item;
-    }
-
-    //FIXME: add logic
-    private boolean validateItem(Map<String, Object> params) {
-
-        boolean result = true;
-
-        if(!params.containsKey("number") || !params.containsKey("name") || !params.containsKey("type")) result = false;
-
-        return result;
     }
 
 }

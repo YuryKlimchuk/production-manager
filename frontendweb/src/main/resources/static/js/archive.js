@@ -35,14 +35,6 @@ $(function() {
 
     });
 
-    $('#edit-dialog').dialog();
-
-    //
-    $btnEditNumber = $('button[name="btnEditNumber"]').first().click(() => {
-        console.log('btnEditNumber');
-
-    });
-
     // handle button create new
     $('button[name="btnCreateNew"]').first().click(() => {
         let url =
@@ -57,8 +49,10 @@ $(function() {
         let $divs = $('div[name="set-status"]');
         $divs.each((index, div) => {
             $(div).hide();
+            $(div).find('*').attr('disabled', true);
         });
         $('#set-status-' + type).show();
+        $('#set-status-' + type).find('*').attr('disabled', false);
     };
 
     // form to create new part
@@ -69,8 +63,6 @@ $(function() {
     $selectType.on('change', function() {
       getStatusInput($selectType.val());
     });
-
-
 
 });
 

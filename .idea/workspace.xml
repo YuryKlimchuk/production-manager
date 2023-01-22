@@ -4,8 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9109473d-d783-49f0-a72d-c4fc6fee1e76" name="Changes" comment="updatess">
-      <change beforePath="$PROJECT_DIR$/archive/src/main/java/com/hydroyura/productionmanager/archive/controllers/parts/PartRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/archive/src/main/java/com/hydroyura/productionmanager/archive/controllers/parts/PartRestController.java" afterDir="false" />
+    <list default="true" id="9109473d-d783-49f0-a72d-c4fc6fee1e76" name="Changes" comment="updatessss">
+      <change afterPath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/ControllersValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/rendered/providers/JSArchiveEditPartRenderedFragmentProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontendweb/src/main/resources/static/js/archive-edit-part.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/FrontendwebApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/FrontendwebApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/controller/archive/ArchiveController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/controller/archive/ArchiveController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/controller/archive/PartValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/dto/DTOPart.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/dto/DTORate.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb/dto/DTORate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/resources/static/js/archive.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontendweb/src/main/resources/static/js/archive.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontendweb/src/main/resources/templates/archive/fragments/fragments-archive.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontendweb/src/main/resources/templates/archive/fragments/fragments-archive.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,20 +69,20 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;corretto-17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/yury/working_folder/java_projects/production-manager/sharedapi/src/main/java/com/hydroyura/productionmanager/sharedapi/dto&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/yury/working_folder/java_projects/production-manager/frontendweb/src/main/resources/static/js&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDK Location&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;instant.run&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontendweb/src/main/resources/static/js" />
       <recent name="$PROJECT_DIR$/sharedapi/src/main/java/com/hydroyura/productionmanager/sharedapi/dto" />
       <recent name="$PROJECT_DIR$/frontendweb/src/main/java/com/hydroyura/productionmanager/frontendweb" />
       <recent name="$PROJECT_DIR$/frontendweb/src/main/resources/templates" />
       <recent name="$PROJECT_DIR$/archive/src/main/java/com/hydroyura/productionmanager/archive" />
-      <recent name="$PROJECT_DIR$/dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontendweb/src/main/resources/templates/archive/fragments" />
@@ -86,10 +96,11 @@
       <recent name="com.hydroyura.productionmanager.sharedapi.validators" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.hydroyura.productionmanager.frontendweb.rendered.providers" />
       <recent name="com.hydroyura.productionmanager.sharedapi.feigninterfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Archive-starter">
+  <component name="RunManager" selected="Application.Frontendweb-starter">
     <configuration name="Archive-starter" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -286,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673024588538</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="updatessss">
+      <created>1673025357289</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1673025357289</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -319,7 +337,8 @@
     <MESSAGE value="[sharedapi] add new module" />
     <MESSAGE value="updates" />
     <MESSAGE value="updatess" />
-    <option name="LAST_COMMIT_MESSAGE" value="updatess" />
+    <MESSAGE value="updatessss" />
+    <option name="LAST_COMMIT_MESSAGE" value="updatessss" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
