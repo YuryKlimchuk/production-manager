@@ -126,8 +126,8 @@ public class ArchiveController extends AbstractController {
 
     }
 
-    @RequestMapping(value = URL_UPDATE, method = RequestMethod.GET)
-    public String update(@PathVariable(name = "id") String id) {
+    @RequestMapping(value = URL_UPDATE, method = RequestMethod.POST)
+    public String update(@PathVariable(name = "id") String id, @ModelAttribute DTOPart updatedPart) {
         String str = "ssss";
         return null;
     }

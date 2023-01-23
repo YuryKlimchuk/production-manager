@@ -50,12 +50,13 @@ function buttonUpdateClick() {
 
     console.log($(this));
     $form = $(this).closest('form');
-    $form.submit();
+
 
     $.each(updateValues, function(field, value) {
         console.log($('tr[data-field="' + field + '"]').data('field'));
-
+        $("<input />").attr("name", field).attr("value", value).appendTo($form);
     });
+    $form.submit();
 
 }
 
