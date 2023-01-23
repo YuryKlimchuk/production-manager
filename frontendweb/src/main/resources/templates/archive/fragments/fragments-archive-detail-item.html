@@ -55,6 +55,14 @@
                                     </div>
                                     <div class="col-6 text-center">
                                         <form th:method="'POST'" th:action="@{~__${#httpServletRequest.requestURI}__/update}">
+ <!--                                           <input type="hidden" th:name="'number'" th:value="${item.number}" />
+                                            <input type="hidden" th:name="'name'" th:value="${item.name}" />
+                                            <input type="hidden" th:name="'type'" th:value="${item.type}" />
+                                            <input type="hidden" th:name="'status'" th:value="${item.status}" />
+                                            <input type="hidden" th:name="'created'" th:value="${item.created}" />
+                                            <input type="hidden" th:name="'lastUpdate'" th:value="${item.lastUpdate}" />
+                                            <input type="hidden" th:name="'pdf'" th:value="${item.pdf}" />
+                                            <input type="hidden" th:name="'otherFile'" th:value="${item.otherFile}" />-->
                                             <button type="button" class="btn btn-info btn-sm w-75 btn-update">Обновить</button>
                                         </form>
                                     </div>

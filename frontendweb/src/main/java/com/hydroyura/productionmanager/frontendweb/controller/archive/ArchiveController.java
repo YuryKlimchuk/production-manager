@@ -108,7 +108,6 @@ public class ArchiveController extends AbstractController {
 
     @RequestMapping(value = URL_CREATE_NEW, method = RequestMethod.POST)
     public String createNewSaving(RedirectAttributes redirectAttributes, @ModelAttribute(name = "item") DTOPart item ) {
-
         DataBinder dataBinder = new DataBinder(item);
         dataBinder.setValidator(validator);
         dataBinder.validate();
@@ -123,7 +122,6 @@ public class ArchiveController extends AbstractController {
         redirectAttributes.addFlashAttribute("item", item);
 
         return "redirect:/archive/v1/list/create-new";
-
     }
 
     @RequestMapping(value = URL_UPDATE, method = RequestMethod.POST)

@@ -1,4 +1,7 @@
 $(function() {
+
+    console.log(updateValues);
+
     const editButtonsClass = 'btn-edit-field';
     const acceptButtonsClass = 'btn-accept-field';
     const updateValueClass = 'update-value';
@@ -63,7 +66,7 @@ function buttonUpdateClick() {
 let updateValues = {
     'number': '',
     'name': '',
-    'type': '',
+    'type': 'PISKA',
     'status': '',
     'created': '',
     'lastUpdate': '',
