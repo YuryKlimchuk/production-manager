@@ -1,48 +1,71 @@
 $(function() {
+    const editButtonsClass = 'btn-edit-field';
+    const acceptButtonsClass = 'btn-accept-field';
+    const updateValueClass = 'update-value';
+    const updateInputClass = 'update-input';
 
-    // EDIT PAGE
-    // edit number
-    function editNumberShowHide() {
-        let $editNumberLabel = $('#number-label');
-        let $editNumberInput = $('#number-input');
-        let $btnEditNumber = $('button[name="btnEditNumber"]').first();
-        let $btnAcceptNumber = $('button[name="btnAcceptNumber"]').first();
-
-        if($editNumberInput.is(':visible')) {
-            $editNumberInput.hide();
-            $editNumberLabel.show();
-            $btnEditNumber.show();
-            $btnAcceptNumber.hide();
-        } else {
-            $editNumberInput.show();
-            $editNumberInput.val($editNumberLabel.text())
-            $editNumberLabel.hide();
-            $btnEditNumber.hide();
-            $btnAcceptNumber.show();
-        }
-
-
-        // Checks CSS content for display:[none|block], ignores visibility:[true|false]
-        //$(element).is(":visible");
-
-        // The same works with hidden
-        //$(element).is(":hidden");
-
-    }
-
-    $('button[name="btnEditNumber"]').first().click(() => {
-        console.log('btnEditNumber');
-        editNumberShowHide();
+    $('.' + editButtonsClass + ', .' + acceptButtonsClass).each(function() {
+        $(this).click(function() {
+            buttonClick(editButtonsClass, acceptButtonsClass, updateInputClass, updateValueClass, $(this));
+        });
     });
 
-    $('button[name="btnAcceptNumber"]').first().click(() => {
-        console.log('btnAcceptNumber');
-        editNumberShowHide();
-    });
-
-
-
+    $('.btn-update').first().click(buttonUpdateClick);
 
 });
 
+function buttonClick(editClass, acceptClass, inputClass, valueClass, $button) {
+    let $row = $button.closest('tr');
+    let field = $row.data('field');
+    let $btnAccept = $row.find('.' + acceptClass);
+    let $btnEdit = $row.find('.' + editClass);
+    let $input = $row.find('.' + inputClass);
+    let $value = $row.find('.' + valueClass);
 
+    if($button.hasClass(editClass)) {
+        showInputField(updateValues, field, $btnEdit, $btnAccept, $input, $value);
+    } else {
+        saveUpdateValue(updateValues, field, $btnEdit, $btnAccept, $input, $value);
+    }
+}
+
+function saveUpdateValue(updateValues, field, $btnEdit, $btnAccept, $input, $value) {
+    $btnEdit.show();
+    $btnAccept.hide();
+    $input.hide();
+    $value.show();
+    updateValues[field] = $input.val();
+    $value.text(updateValues[field]);
+}
+
+function showInputField(updateValues, field, $btnEdit, $btnAccept, $input, $value) {
+    $btnEdit.hide();
+    $btnAccept.show();
+    $input.show();
+    $value.hide();
+}
+
+function buttonUpdateClick() {
+    console.log('UPDATE-BUTTON');
+
+    console.log($(this));
+    $form = $(this).closest('form');
+    $form.submit();
+
+    $.each(updateValues, function(field, value) {
+        console.log($('tr[data-field="' + field + '"]').data('field'));
+
+    });
+
+}
+
+let updateValues = {
+    'number': '',
+    'name': '',
+    'type': '',
+    'status': '',
+    'created': '',
+    'lastUpdate': '',
+    'pdf': '',
+    'otherFile': ''
+}

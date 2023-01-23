@@ -28,6 +28,8 @@ public class ArchiveController extends AbstractController {
     static final String URL_DISPLAY_LIST = "/list";
     static final String URL_DISPLAY_ITEM = "/list/{id}";
     static final String URL_CREATE_NEW = "/list/create-new";
+    static final String URL_DELETE = "/list/{id}/delete";
+    static final String URL_UPDATE = "/list/{id}/update";
 
     @Autowired
     private IPartService partService;
@@ -49,7 +51,7 @@ public class ArchiveController extends AbstractController {
 
         //URLs.putIfAbsent(URL_DISPLAY_ITEM, URL_DISPLAY_ITEM);
         setFragmentToURL(URL_DISPLAY_LIST, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive.html").setName("archive-list"));
-        setFragmentToURL(URL_DISPLAY_ITEM, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive.html").setName("archive-detail-item"));
+        setFragmentToURL(URL_DISPLAY_ITEM, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive-detail-item.html").setName("archive-detail-item"));
         setFragmentToURL(URL_CREATE_NEW, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive.html").setName("archive-create-new"));
 
         // archive-create-new
@@ -88,14 +90,13 @@ public class ArchiveController extends AbstractController {
         return DEFAULT_VIEW;
     }
 
-    @RequestMapping(value = URL_DISPLAY_ITEM, method = RequestMethod.POST)
+    // FIXME: change to GET method
+    @RequestMapping(value = URL_DELETE, method = RequestMethod.GET)
     public String deleteItem(RedirectAttributes redirectAttributes,
-                             @PathVariable(name = "id") String id,
-                             @RequestParam(name = "btnDelete") String btnDelete) {
-
+                             @PathVariable(name = "id") String id) {
         // FIXME: add checking
+        // add msg about successful deleting
         partService.delete(id);
-
         return "redirect:/archive/v1/list";
     };
 
@@ -123,6 +124,12 @@ public class ArchiveController extends AbstractController {
 
         return "redirect:/archive/v1/list/create-new";
 
+    }
+
+    @RequestMapping(value = URL_UPDATE, method = RequestMethod.GET)
+    public String update(@PathVariable(name = "id") String id) {
+        String str = "ssss";
+        return null;
     }
 
 }
