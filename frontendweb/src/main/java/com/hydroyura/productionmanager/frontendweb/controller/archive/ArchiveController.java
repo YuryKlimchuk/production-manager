@@ -14,11 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.time.LocalDate;
 import java.util.Map;
 
 @Controller
@@ -39,9 +41,6 @@ public class ArchiveController extends AbstractController {
 
     @Autowired @Qualifier(value = "DTOPartValidator")
     private Validator validator;
-
-
-    private Collection<String> dtoKeys = Arrays.asList("number", "name", "status", "type");
 
 
     @Override
@@ -125,9 +124,13 @@ public class ArchiveController extends AbstractController {
     }
 
     @RequestMapping(value = URL_UPDATE, method = RequestMethod.POST)
-    public String update(@PathVariable(name = "id") String id, @ModelAttribute DTOPart updatedPart) {
-        String str = "ssss";
-        return null;
+    public String update(RedirectAttributes redirectAttributes,
+                         @PathVariable(name = "id") String id,
+                         @ModelAttribute DTOPart updatedPart) {
+        updatedPart.setLastUpdate(LocalDate.now().toString());
+        partService.update(id, updatedPart);
+        redirectAttributes.addFlashAttribute("msg", "Элемент успешно обновлен");
+        return "redirect:/archive/v1/list/" + id;
     }
 
 }

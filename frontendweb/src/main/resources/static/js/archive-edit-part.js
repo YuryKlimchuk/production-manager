@@ -49,15 +49,15 @@ function showInputField(updateValues, field, $btnEdit, $btnAccept, $input, $valu
 }
 
 function buttonUpdateClick() {
-    console.log('UPDATE-BUTTON');
-
-    console.log($(this));
     $form = $(this).closest('form');
 
 
     $.each(updateValues, function(field, value) {
-        console.log($('tr[data-field="' + field + '"]').data('field'));
-        $("<input />").attr("name", field).attr("value", value).appendTo($form);
+        let valueToSend = value;
+        if(value == '') {
+            valueToSend = $('tr[data-field="' + field + '"]').find('.old-value').text();
+        }
+        $('<input />').attr('name', field).attr('value', valueToSend).attr('type', 'hidden').appendTo($form);
     });
     $form.submit();
 
@@ -66,7 +66,7 @@ function buttonUpdateClick() {
 let updateValues = {
     'number': '',
     'name': '',
-    'type': 'PISKA',
+    'type': '',
     'status': '',
     'created': '',
     'lastUpdate': '',
