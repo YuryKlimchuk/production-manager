@@ -1,7 +1,5 @@
 $(function() {
 
-    console.log(updateValues);
-
     const editButtonsClass = 'btn-edit-field';
     const acceptButtonsClass = 'btn-accept-field';
     const updateValueClass = 'update-value';
@@ -14,6 +12,17 @@ $(function() {
     });
 
     $('.btn-update').first().click(buttonUpdateClick);
+
+    // FIXME: repeatable code!!!! Have to create versatile function
+    // handle button go to specification
+    $('.btn-specification').first().click(() => {
+        let url =
+            $(location).attr('protocol') + '//' +
+            $(location).attr('host') +
+            $(location).attr('pathname') + '/specification';
+
+        $(location).prop('href', url);
+    });
 
 });
 

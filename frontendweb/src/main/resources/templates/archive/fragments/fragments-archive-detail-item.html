@@ -4,7 +4,7 @@
     <body>
         <!-- ARCHIVE-DETAIL-ITEM($ITEM) :: BEGIN -->
         <div class="container w-50 border border-2 border-warning" th:fragment="archive-detail-item">
-            <th:block th:if="${item.type == 'PART'}">
+            <th:block th:if="${item.type == 'PART' || item.type == 'ASSEMBLY'}">
                 <h4 th:if="${#ctx.containsVariable('beginScripts')}" th:text="${msg}" class="text-success" />
                 <table class="table table-bordered">
                     <thead>
@@ -114,13 +114,22 @@
                             <td colspan="4">
                                 <div class="row">
                                     <div class="col-6 text-center">
-                                        <button type="button" class="btn btn-danger btn-sm w-75">Удалить</button>
+                                        <form th:method="'GET'" th:action="@{~__${#httpServletRequest.requestURI}__/delete}">
+                                            <button type="submit" class="btn btn-danger btn-sm w-75">Удалить</button>
+                                        </form>
                                     </div>
                                     <div class="col-6 text-center">
                                         <form th:method="'POST'" th:action="@{~__${#httpServletRequest.requestURI}__/update}">
                                             <button type="button" class="btn btn-info btn-sm w-75 btn-update">Обновить</button>
                                         </form>
                                     </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${item.type == 'ASSEMBLY'}">
+                            <td colspan="4">
+                                <div class="col-12 text-center">
+                                    <button type="button" class="btn btn-success btn-sm w-75 btn-specification">Спецификация</button>
                                 </div>
                             </td>
                         </tr>

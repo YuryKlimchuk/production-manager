@@ -32,6 +32,7 @@ public class ArchiveController extends AbstractController {
     static final String URL_CREATE_NEW = "/list/create-new";
     static final String URL_DELETE = "/list/{id}/delete";
     static final String URL_UPDATE = "/list/{id}/update";
+    static final String URL_SPECIFICATION = "/list/{id}/specification";
 
     @Autowired
     private IPartService partService;
@@ -52,6 +53,7 @@ public class ArchiveController extends AbstractController {
         setFragmentToURL(URL_DISPLAY_LIST, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive.html").setName("archive-list"));
         setFragmentToURL(URL_DISPLAY_ITEM, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive-detail-item.html").setName("archive-detail-item"));
         setFragmentToURL(URL_CREATE_NEW, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive.html").setName("archive-create-new"));
+        setFragmentToURL(URL_SPECIFICATION, new RenderedFragment().setType(RenderedFragmentType.BODY).setSource("/archive/fragments/fragments-archive-specification.html").setName("archive-specification"));
 
         // archive-create-new
 
@@ -89,7 +91,6 @@ public class ArchiveController extends AbstractController {
         return DEFAULT_VIEW;
     }
 
-    // FIXME: change to GET method
     @RequestMapping(value = URL_DELETE, method = RequestMethod.GET)
     public String deleteItem(RedirectAttributes redirectAttributes,
                              @PathVariable(name = "id") String id) {
@@ -131,6 +132,12 @@ public class ArchiveController extends AbstractController {
         partService.update(id, updatedPart);
         redirectAttributes.addFlashAttribute("msg", "Элемент успешно обновлен");
         return "redirect:/archive/v1/list/" + id;
+    }
+
+    @RequestMapping(value = URL_SPECIFICATION, method = RequestMethod.GET)
+    public String specification(Model model) {
+
+        return DEFAULT_VIEW;
     }
 
 }
