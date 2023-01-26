@@ -17,8 +17,7 @@ import java.util.*;
 @RequestMapping(value = "/rates")
 public class ControllerRate implements IControllerRate<DTORate> {
 
-    @Autowired
-    @Qualifier(value = "RateService")
+    @Autowired @Qualifier(value = "RateService")
     private IRateService<?, DTORate> service;
 
     @Override
@@ -28,10 +27,11 @@ public class ControllerRate implements IControllerRate<DTORate> {
         Collection<DTORate> entities = service.getAllByAssemblyId(validId);
         if(entities.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
+        //FIXME: have to optimized
         Map<String, List<DTORate>> specification = new HashMap<>();
-        Arrays.stream(DBPartType.values()).forEach(value -> {
-            specification.put(value.toString(), new ArrayList<>());
-        });
+        Arrays.stream(DBPartType.values()).forEach(
+                value -> specification.put(value.toString(), new ArrayList<>())
+        );
 
         entities.stream().forEach(entity -> {
             String type = entity.getElement().getType();
