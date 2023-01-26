@@ -135,8 +135,23 @@ public class ArchiveController extends AbstractController {
     }
 
     @RequestMapping(value = URL_SPECIFICATION, method = RequestMethod.GET)
-    public String specification(Model model) {
+    public String specification(@PathVariable(name = "id") String id, Model model) {
+        ResponseEntity<?> response = partService.getItemById(id);
+        if(response.getStatusCode().equals(HttpStatus.OK)) {
+            Map<String, String> item = (Map<String, String>) response.getBody();
+            String type = (item.containsKey("type")) ? item.get("type") : null;
 
+            if(type.equals("ASSEMBLY")) {
+/*
+                ResponseEntity<?> responseAssembly = rateService.getSpecificationByAssemblyId(id);
+                if(responseAssembly.getStatusCode().equals(HttpStatus.OK)) {
+                    model.addAttribute("specification", responseAssembly.getBody());
+                }
+                */
+            } else {
+                // redirect to list
+            }
+        }
         return DEFAULT_VIEW;
     }
 

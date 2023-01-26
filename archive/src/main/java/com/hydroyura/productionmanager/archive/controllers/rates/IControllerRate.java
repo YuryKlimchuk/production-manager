@@ -5,9 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Collection;
-
-public interface IControllerRate<DTO> {
+public interface     IControllerRate<DTO> {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<?> getSpecificationByAssemblyId(@PathVariable(name = "id") String rawId);
