@@ -1,5 +1,6 @@
 package com.hydroyura.productionmanager.archive;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hydroyura.productionmanager.sharedapi.validators.DTOPartValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -23,5 +24,10 @@ public class ArchiveApplication {
 	@Bean(name = "DTOPartValidator")
 	public Validator getDTOPartValidator() {
 		return new DTOPartValidator();
+	}
+
+	@Bean
+	public ObjectMapper getObjectMapper() {
+		return new ObjectMapper();
 	}
 }

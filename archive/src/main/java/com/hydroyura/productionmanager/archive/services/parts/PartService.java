@@ -3,6 +3,9 @@ package com.hydroyura.productionmanager.archive.services.parts;
 import com.hydroyura.productionmanager.archive.entities.DBPart;
 import com.hydroyura.productionmanager.archive.entities.QDBPart;
 import com.hydroyura.productionmanager.archive.repositories.BaseRepository;
+import com.hydroyura.productionmanager.archive.services.observer.IObserver;
+import com.hydroyura.productionmanager.archive.services.observer.IPublisher;
+import com.hydroyura.productionmanager.archive.services.observer.PublisherMessage;
 import com.hydroyura.productionmanager.sharedapi.dto.DTOPart;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service(value = "PartService")
-public class PartService implements IPartService<DBPart, DTOPart> {
+public class PartService implements IPartService<DBPart, DTOPart>, IPublisher {
 
     private Class<DTOPart> dtoType = DTOPart.class;
     private Class<DBPart> entityType = DBPart.class;
@@ -28,6 +32,8 @@ public class PartService implements IPartService<DBPart, DTOPart> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    private Collection<IObserver> observers = new ArrayList<>();
 
 
     @Override
@@ -64,6 +70,8 @@ public class PartService implements IPartService<DBPart, DTOPart> {
     public Optional<DTOPart> delete(Long id) {
         // FIXME: checking
         repository.deleteById(id);
+        PublisherMessage message = createMessage("DELETE", null);
+        notifyObservers(message);
         return Optional.empty();
     }
 
@@ -71,6 +79,8 @@ public class PartService implements IPartService<DBPart, DTOPart> {
     public Optional<DTOPart> save(DTOPart dto) {
         DBPart entity = modelMapper.map(dto, entityType);
         DTOPart savedDTO = modelMapper.map(repository.save(entity), dtoType);
+        PublisherMessage message = createMessage("CREATE", entity);
+        notifyObservers(message);
         return Optional.of(savedDTO);
     }
 
@@ -78,7 +88,30 @@ public class PartService implements IPartService<DBPart, DTOPart> {
     public Optional<DTOPart> update(DTOPart dto) {
         DBPart entity = modelMapper.map(dto, entityType);
         DTOPart savedDTO = modelMapper.map(repository.save(entity), dtoType);
+        PublisherMessage message = createMessage("UPDATE", entity);
+        notifyObservers(message);
         return Optional.of(savedDTO);
     }
 
+    @Override
+    public void registerObserver(IObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(IObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(PublisherMessage message) {
+        observers.forEach(observer -> observer.update(message));
+    }
+
+    private PublisherMessage createMessage(String actionType, DBPart part) {
+        PublisherMessage message = new PublisherMessage()
+                .setMessageBody(part)
+                .setActionType(actionType);
+        return message;
+    };
 }

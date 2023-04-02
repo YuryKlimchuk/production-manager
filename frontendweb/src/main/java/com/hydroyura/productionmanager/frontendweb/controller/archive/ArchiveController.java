@@ -63,6 +63,9 @@ public class ArchiveController extends AbstractController {
 
     @RequestMapping(value = URL_DISPLAY_LIST, method = RequestMethod.GET)
     public String displayList(Model model, @ModelAttribute(name = "filter") ArchiveSearchFilter filter) {
+
+        System.out.println("REQUEST");
+
         // set default value to type filed
         if(filter.getType() == null) filter.setType("PART");
 

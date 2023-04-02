@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4">
-  <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/archive">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$/archive" dumb="true">
       <sourceFolder url="file://$MODULE_DIR$/archive/target/generated-sources/com/hydroyura/productionmanager/archive/entities" isTestSource="false" />
     </content>
   </component>
