@@ -3,6 +3,7 @@ package com.hydroyura.productionmanager.archive.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
@@ -21,10 +22,10 @@ public class DBPart extends DBBaseEntity {
     @Column
     private String status;
 
-    private String created;
+    private LocalDate created;
 
     @Column(name = "last_update")
-    private String lastUpdate;
+    private LocalDate lastUpdate;
 
     @Column
     private String pdf;
@@ -75,19 +76,19 @@ public class DBPart extends DBBaseEntity {
         this.status = status;
     }
 
-    public String getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
-    public String getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(String lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

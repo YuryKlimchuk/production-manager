@@ -42,6 +42,7 @@ public class PartObserver implements IObserver {
         DBPartChange dbPartChange = new DBPartChange();
         dbPartChange.setPartId(dbPart.getId());
         dbPartChange.setUpdate(dbPart.getLastUpdate());
+        //dbPartChange.setUpdate("2010-20-01");
         dbPartChange.setObject(null);
 
         try {

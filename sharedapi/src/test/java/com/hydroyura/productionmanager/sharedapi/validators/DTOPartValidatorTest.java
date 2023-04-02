@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Validator;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -43,8 +45,8 @@ class DTOPartValidatorTest {
         defaultPart.setStatus("TEST");
         defaultPart.setOtherFile("TEST");
         defaultPart.setPdf("TEST");
-        defaultPart.setCreated("TEST");
-        defaultPart.setLastUpdate("TEST");
+        defaultPart.setCreated(LocalDate.now());
+        defaultPart.setLastUpdate(LocalDate.now());
 
         DataBinder dataBinder = new DataBinder(defaultPart);
         dataBinder.setValidator(validator);

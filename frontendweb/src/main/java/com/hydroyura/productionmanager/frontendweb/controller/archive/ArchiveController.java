@@ -131,7 +131,7 @@ public class ArchiveController extends AbstractController {
     public String update(RedirectAttributes redirectAttributes,
                          @PathVariable(name = "id") String id,
                          @ModelAttribute DTOPart updatedPart) {
-        updatedPart.setLastUpdate(LocalDate.now().toString());
+        updatedPart.setLastUpdate(LocalDate.now());
         partService.update(id, updatedPart);
         redirectAttributes.addFlashAttribute("msg", "Элемент успешно обновлен");
         return "redirect:/archive/v1/list/" + id;

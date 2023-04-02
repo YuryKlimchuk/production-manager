@@ -1,5 +1,7 @@
 package com.hydroyura.productionmanager.sharedapi.dto;
 
+import java.time.LocalDate;
+
 public class DTOPart {
 
     private long id;
@@ -12,9 +14,9 @@ public class DTOPart {
 
     private String status;
 
-    private String created;
+    private LocalDate created;
 
-    private String lastUpdate;
+    private LocalDate lastUpdate;
 
     private String pdf;
 
@@ -62,19 +64,19 @@ public class DTOPart {
         this.status = status;
     }
 
-    public String getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
-    public String getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(String lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
